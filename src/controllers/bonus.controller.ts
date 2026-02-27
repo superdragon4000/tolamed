@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+﻿import { NextFunction, Request, Response } from 'express';
 
 import { bonusQueue } from '../queue';
 import { spendBonus } from '../services/bonus.service';
@@ -18,8 +18,6 @@ export async function spendUserBonus(
 ): Promise<void> {
   try {
     const amount = Number(req.body?.amount);
-<<<<<<< HEAD
-=======
     const headerRequestId = req.header('Idempotency-Key');
     const bodyRequestId = req.body?.requestId;
     const hasHeaderRequestId = headerRequestId !== undefined;
@@ -28,17 +26,11 @@ export async function spendUserBonus(
       typeof requestIdSource === 'string' && requestIdSource.trim().length > 0
         ? requestIdSource.trim()
         : null;
->>>>>>> cdb9d26 (done)
 
     if (!Number.isInteger(amount) || amount <= 0) {
       throw createAppError('amount must be a positive integer', 400);
     }
 
-<<<<<<< HEAD
-    await spendBonus(req.params.id, amount);
-
-    res.json({ success: true });
-=======
     if (!requestId) {
       throw createAppError('requestId is required', 400);
     }
@@ -46,7 +38,6 @@ export async function spendUserBonus(
     const result = await spendBonus(req.params.id, amount, requestId);
 
     res.json({ success: true, duplicated: result.duplicated });
->>>>>>> cdb9d26 (done)
   } catch (error) {
     next(error);
   }
@@ -58,11 +49,6 @@ export async function enqueueExpireAccrualsJob(
   next: NextFunction,
 ): Promise<void> {
   try {
-<<<<<<< HEAD
-    await bonusQueue.add('expireAccruals', {
-      createdAt: new Date().toISOString(),
-    });
-=======
     await bonusQueue.add(
       'expireAccruals',
       {
@@ -77,7 +63,6 @@ export async function enqueueExpireAccrualsJob(
         },
       },
     );
->>>>>>> cdb9d26 (done)
 
     res.json({ queued: true });
   } catch (error) {

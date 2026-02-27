@@ -1,4 +1,4 @@
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+﻿CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -21,14 +21,9 @@ CREATE TABLE IF NOT EXISTS bonus_transactions (
 CREATE INDEX IF NOT EXISTS bonus_transactions_user_id_created_at_idx
   ON bonus_transactions (user_id, created_at);
 
-<<<<<<< HEAD
-CREATE UNIQUE INDEX IF NOT EXISTS bonus_transactions_request_id_uq
-  ON bonus_transactions (request_id);
-=======
 CREATE UNIQUE INDEX IF NOT EXISTS bonus_transactions_user_request_spend_uq
   ON bonus_transactions (user_id, request_id)
   WHERE type = 'spend' AND request_id IS NOT NULL;
->>>>>>> cdb9d26 (done)
 
 INSERT INTO users (id, name, created_at, updated_at)
 VALUES

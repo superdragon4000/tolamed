@@ -1,16 +1,10 @@
-<<<<<<< HEAD
-import { BonusTransaction } from '../models/BonusTransaction';
-
-type AppError = Error & { status?: number };
-=======
-import { QueryTypes, Transaction } from 'sequelize';
+﻿import { QueryTypes, Transaction } from 'sequelize';
 
 import { sequelize } from '../db';
 import { BonusTransaction } from '../models/BonusTransaction';
 
 type AppError = Error & { status?: number };
 type SpendResult = { duplicated: boolean };
->>>>>>> cdb9d26 (done)
 
 function createAppError(message: string, status: number): AppError {
   const error = new Error(message) as AppError;
@@ -18,39 +12,6 @@ function createAppError(message: string, status: number): AppError {
   return error;
 }
 
-<<<<<<< HEAD
-export async function getUserBalance(userId: string): Promise<number> {
-  const accruals = await BonusTransaction.findAll({
-    where: {
-      user_id: userId,
-      type: 'accrual',
-    },
-  });
-
-  const balance = accruals.reduce((sum, tx) => sum + tx.amount, 0);
-
-  // TODO: учитывать expires_at
-  // TODO: учитывать spend
-  // TODO: учитывать конкурентные списания
-  return balance;
-}
-
-export async function spendBonus(userId: string, amount: number): Promise<void> {
-  // Legacy-набросок: намеренно наивная реализация для задания.
-  // Здесь специально нет транзакции, защиты от гонок и идемпотентности.
-  const balance = await getUserBalance(userId);
-
-  if (balance < amount) {
-    throw createAppError('Not enough bonus', 400);
-  }
-
-  await BonusTransaction.create({
-    user_id: userId,
-    type: 'spend',
-    amount,
-    expires_at: null,
-    request_id: null,
-=======
 async function lockUserSpendingScope(userId: string, tx: Transaction): Promise<void> {
   await sequelize.query('SELECT pg_advisory_xact_lock(hashtext(:userId));', {
     replacements: { userId },
@@ -178,6 +139,5 @@ export async function expireAccruals(): Promise<number> {
     }
 
     return createdCount;
->>>>>>> cdb9d26 (done)
   });
 }

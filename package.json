@@ -7,11 +7,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "migrate": "sequelize-cli db:migrate --migrations-path migrations --url \"$DATABASE_URL\"",
-<<<<<<< HEAD
-    "test": "jest --runInBand",
-=======
     "test": "npm run build && jest --runInBand",
->>>>>>> cdb9d26 (done)
     "test:watch": "jest --watch"
   },
   "dependencies": {

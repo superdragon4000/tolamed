@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-describe('jest bootstrap', () => {
-  it('runs tests', () => {
-    expect(true).toBe(true);
-=======
-const http = require('http');
+﻿const http = require('http');
 
 const { sequelize } = require('../dist/db');
 const app = require('../dist/app').default;
@@ -210,6 +205,5 @@ describe('expire accruals queue behavior', () => {
       { userId, requestId: `expire:${accrualId}` },
     );
     expect(count).toBe(1);
->>>>>>> cdb9d26 (done)
   });
 });
